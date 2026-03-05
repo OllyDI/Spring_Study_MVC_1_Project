@@ -68,14 +68,15 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    // ModelAttribute 자체도 생략가능 -> 객체 타입은 ModelAttribute
+
     // 새로고침시 Post add가 계속 호출되어 item이 계속 생성되는 치명적인 오류가 발생함 -> 수정 필요
     //    @PostMapping("/add")
-    public String addItemV3(Item item) {
+    public String addItemV3(@ModelAttribute Item item) {
         itemRepository.save(item);
         return "basic/item";
     }
 
+    // ModelAttribute 자체도 생략가능 -> 객체 타입은 ModelAttribute
     // 잘 저장되었는지 알수가 없음 -> 해결 필요
     //    @PostMapping("/add")
     public String addItemV4(Item item) {
@@ -84,10 +85,11 @@ public class BasicItemController {
     }
 
     @PostMapping("/add")
-    public String addItemV5(Item item, RedirectAttributes redirectAttributes) {
+    public String addItemV5(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
         Item saveItem = itemRepository.save(item);
-        redirectAttributes.addAttribute("itemId", saveItem.getId());    // 이 값을 return {itemId}으로 쓸 수 있음
-        redirectAttributes.addAttribute("status", true);    // 쿼리로 status=true 값이 들어감
+
+        redirectAttributes.addAttribute("itemId", saveItem.getId());        // 이 값을 return {itemId}으로 쓸 수 있음
+        redirectAttributes.addFlashAttribute("status", true);   // 쿼리로 status=true 값이 들어가고 사라짐
         return "redirect:/basic/items/{itemId}";
     }
 
