@@ -7,11 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Repository - 데이터 접근
+ * Service - 비즈니즈 로직 구현
+ * Controller - HTTP 요청 처리
+ */
 @Repository
 public class ItemRepository {
     // 실제로는 HashMap 사용 금지 -> 여러개가 동시 접근 시 오류 발생 -> ConCurrentHashMap
     // static long도 마찬가지
-    // static 사용 생각
+
     private static final Map<Long, Item> store = new HashMap<>();
     private static long sequence = 0L;
 
